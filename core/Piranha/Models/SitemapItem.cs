@@ -62,6 +62,11 @@ namespace Piranha.Models
         public string PageTypeName { get; set; }
 
         /// <summary>
+        /// Gets/sets the unique slug.
+        /// </summary>
+        public string Slug { get; set; }
+
+        /// <summary>
         /// Gets/sets the unique permalink.
         /// </summary>
         public string Permalink { get; set; }

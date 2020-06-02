@@ -9,6 +9,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -157,17 +158,45 @@ namespace Piranha.AspNetCore
 
                 if (segments.Length > pos)
                 {
-                    // Scan for the most unique slug
-                    for (var n = segments.Length; n > pos; n--)
+                    if (appConfig.HierarchicalPageSlugs)
                     {
-                        var slug = string.Join("/", segments.Subset(pos, n));
-                        page = await api.Pages.GetBySlugAsync<PageBase>(slug, site.Id)
-                            .ConfigureAwait(false);
+                        IEnumerable<SitemapItem> items = service.Site.Sitemap;
+                        Guid? matchedId = null;
+                        int matchedPos = pos;
 
-                        if (page != null)
+                        for (var n = pos; n < segments.Length; n++)
                         {
-                            pos = pos + n;
-                            break;
+                            var match = items.FirstOrDefault(i => i.Slug == segments[n]);
+
+                            if (match == null) break;
+
+                            matchedId = match.Id;
+                            items = match.Items;
+                            matchedPos++;
+                        }
+
+                        // Check if we got a match
+                        if (matchedId.HasValue)
+                        {
+                            page = await api.Pages.GetByIdAsync<PageBase>(matchedId.Value)
+                                .ConfigureAwait(false);
+                            pos = matchedPos;
+                        }
+                    }
+                    else
+                    {
+                        // Scan for the most unique slug
+                        for (var n = segments.Length; n > pos; n--)
+                        {
+                            var slug = string.Join("/", segments.Subset(pos, n));
+                            page = await api.Pages.GetBySlugAsync<PageBase>(slug, site.Id)
+                                .ConfigureAwait(false);
+
+                            if (page != null)
+                            {
+                                pos = pos + n;
+                                break;
+                            }
                         }
                     }
                 }

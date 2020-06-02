@@ -312,8 +312,9 @@ namespace Piranha.Repositories
         /// <param name="pages">The full page list</param>
         /// <param name="parentId">The current parent id</param>
         /// <param name="level">The level in structure</param>
+        /// <param name="prefix">The permalink from the previous level</param>
         /// <returns>The sitemap</returns>
-        private Models.Sitemap Sort(IEnumerable<Page> pages, Guid? parentId = null, int level = 0)
+        private Models.Sitemap Sort(IEnumerable<Page> pages, Guid? parentId = null, int level = 0, string prefix = "")
         {
             var result = new Models.Sitemap();
 
@@ -325,10 +326,14 @@ namespace Piranha.Repositories
                 {
                     item.Permalink = page.RedirectUrl;
                 }
+                else if (prefix != "")
+                {
+                    item.Permalink = $"{ prefix }/{ item.Permalink }";
+                }
 
                 item.Level = level;
                 item.PageTypeName = App.PageTypes.First(t => t.Id == page.PageTypeId).Title;
-                item.Items = Sort(pages, page.Id, level + 1);
+                item.Items = Sort(pages, page.Id, level + 1, item.Permalink);
 
                 result.Add(item);
             }

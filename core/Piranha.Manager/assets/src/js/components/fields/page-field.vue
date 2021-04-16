@@ -2,10 +2,10 @@
     <div class="media-field" :class="{ empty: isEmpty }">
         <div class="media-picker">
             <div class="btn-group float-right">
-                <button v-on:click.prevent="select" class="btn btn-primary text-center">
+                <button v-on:click.prevent="select" v-if="visible(model.page)" class="btn btn-primary text-center">
                     <i class="fas fa-plus"></i>
                 </button>
-                <button v-on:click.prevent="remove" class="btn btn-danger text-center">
+                <button v-on:click.prevent="remove" v-if="visible(model.page)" class="btn btn-danger text-center">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -51,6 +51,9 @@ export default {
                     title: this.model.page.title
                 });
             }
+        },
+        visible: function (page) {
+            return this.meta.settings.ContentTypeId === null || page.typeId === this.meta.settings.ContentTypeId;
         }
     },
     computed: {

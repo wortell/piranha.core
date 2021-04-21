@@ -1373,7 +1373,7 @@ Vue.component("page-field", {
         siteId = piranha.pageedit.siteId;
       }
 
-      piranha.pagepicker.open(this.update, siteId);
+      piranha.pagepicker.open(this.update, siteId, item => !this.meta.settings.ContentTypeId || item.typeId === this.meta.settings.ContentTypeId);
     },
     remove: function () {
       this.model.id = null;
@@ -1389,9 +1389,6 @@ Vue.component("page-field", {
           title: this.model.page.title
         });
       }
-    },
-    visible: function (page) {
-      return this.meta.settings.ContentTypeId === null || page.typeId === this.meta.settings.ContentTypeId;
     }
   },
   computed: {
@@ -1408,7 +1405,7 @@ Vue.component("page-field", {
       }
     };
   },
-  template: "\n<div class=\"media-field\" :class=\"{ empty: isEmpty }\">\n    <div class=\"media-picker\">\n        <div class=\"btn-group float-right\">\n            <button v-on:click.prevent=\"select\" v-if=\"visible(model.page)\" class=\"btn btn-primary text-center\">\n                <i class=\"fas fa-plus\"></i>\n            </button>\n            <button v-on:click.prevent=\"remove\" v-if=\"visible(model.page)\" class=\"btn btn-danger text-center\">\n                <i class=\"fas fa-times\"></i>\n            </button>\n        </div>\n        <div class=\"card text-left\">\n            <div class=\"card-body\" v-if=\"isEmpty\">\n                <span v-if=\"meta.placeholder != null\" class=\"text-secondary\">{{ meta.placeholder }}</span>\n                <span v-if=\"meta.placeholder == null\" class=\"text-secondary\">&nbsp;</span>\n            </div>\n            <div class=\"card-body\" v-else>\n                <a href=\"piranha.baseUrl + 'manager/page/edit/' + model.page.id\" target=\"_blank\">{{ model.page.title }}</a>\n            </div>\n        </div>\n    </div>\n</div>\n"
+  template: "\n<div class=\"media-field\" :class=\"{ empty: isEmpty }\">\n    <div class=\"media-picker\">\n        <div class=\"btn-group float-right\">\n            <button v-on:click.prevent=\"select\" class=\"btn btn-primary text-center\">\n                <i class=\"fas fa-plus\"></i>\n            </button>\n            <button v-on:click.prevent=\"remove\" class=\"btn btn-danger text-center\">\n                <i class=\"fas fa-times\"></i>\n            </button>\n        </div>\n        <div class=\"card text-left\">\n            <div class=\"card-body\" v-if=\"isEmpty\">\n                <span v-if=\"meta.placeholder != null\" class=\"text-secondary\">{{ meta.placeholder }}</span>\n                <span v-if=\"meta.placeholder == null\" class=\"text-secondary\">&nbsp;</span>\n            </div>\n            <div class=\"card-body\" v-else>\n                <a href=\"piranha.baseUrl + 'manager/page/edit/' + model.page.id\" target=\"_blank\">{{ model.page.title }}</a>\n            </div>\n        </div>\n    </div>\n</div>\n"
 });
 Vue.component("post-field", {
   props: ["uid", "model", "meta"],

@@ -34,7 +34,7 @@ export default {
             } else if (piranha.pageedit) {
                 siteId = piranha.pageedit.siteId;
             }
-            piranha.pagepicker.open(this.update, siteId, (item) => this.meta.settings.ContentTypeId || item.typeId === this.meta.settings.ContentTypeId);
+            piranha.pagepicker.open(this.update, siteId, (item) => !this.meta.settings.ContentTypeId || item.typeId === this.meta.settings.ContentTypeId);
         },
         remove: function () {
             this.model.id = null;

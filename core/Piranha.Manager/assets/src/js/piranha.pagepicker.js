@@ -21,6 +21,9 @@ piranha.pagepicker = new Vue({
                 if (self.search.length > 0) {
                     return item.title.toLowerCase().indexOf(self.search.toLowerCase()) > -1
                 }
+                if (self.filter) {
+                    return self.filter(item);
+                }
                 return true;
             });
         }
@@ -43,9 +46,10 @@ piranha.pagepicker = new Vue({
         refresh: function () {
             this.load(piranha.pagepicker.currentSiteId);
         },
-        open: function (callback, siteId) {
+        open: function (callback, siteId, filter) {
             this.search = '';
             this.callback = callback;
+            this.filter = filter;
 
             this.load(siteId);
 

@@ -24,10 +24,10 @@ depenencies, but still provide a flexible & high performance CMS library.
 
 Piranha is currently built for `.NET 5` and uses in its simplest form the following awesome packages:
 
-* AutoMapper `10.1.1`
-* Markdig `0.22.1`
-* Microsoft.EntityFrameworkCore `5.0.0`
-* Newtonsoft.Json `12.0.3`
+* [AutoMapper](https://github.com/AutoMapper/AutoMapper)
+* [Markdig](https://github.com/xoofx/markdig)
+* [Microsoft.EntityFrameworkCore](https://github.com/dotnet/efcore)
+* [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 
 ## Getting started
 
@@ -80,7 +80,7 @@ the official documentation [here](http://piranhacms.org/docs/architecture/authen
     > cd piranha.core/core/Piranha.Manager
     > npm install
     > gulp min:js
-	> gulp min:cs
+	> gulp min:css
 
 ### Visual Studio users
 

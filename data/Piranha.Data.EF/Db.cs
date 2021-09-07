@@ -246,6 +246,24 @@ namespace Piranha
         }
 
         /// <summary>
+        /// Default constructor.
+        /// </summary>
+        /// <param name="options">Configuration options</param>
+        public Db(DbContextOptions<T> options, IDistributedLockService distributedLockService) : base(options)
+        {
+            if (distributedLockService.TryAcquireLock(Database.GetConnectionString(), TimeSpan.FromSeconds(30)))
+            {
+                // Migrate database
+                Database.Migrate();
+                // Seed
+                Seed();
+
+                IsInitialized = true;
+                distributedLockService.ReleaseLock(Database.GetConnectionString());
+            }
+        }
+
+        /// <summary>
         /// Creates and configures the data model.
         /// </summary>
         /// <param name="mb">The current model builder</param>

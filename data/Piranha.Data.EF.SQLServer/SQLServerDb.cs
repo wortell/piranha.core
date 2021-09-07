@@ -22,5 +22,14 @@ namespace Piranha.Data.EF.SQLServer
         public SQLServerDb(DbContextOptions<SQLServerDb> options) : base(options)
         {
         }
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        /// <param name="options">Configuration options</param>
+        /// <param name="distributedLockService"></param>
+        public SQLServerDb(DbContextOptions<SQLServerDb> options, IDistributedLockService distributedLockService) : base(options, distributedLockService)
+        {
+        }
     }
 }
